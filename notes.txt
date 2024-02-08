@@ -1,3 +1,2 @@
 python3 manage.py runserver # do this command to start local server at http://127.0.0.1:8000/
-
-
+source courseEnv/Scripts/activate # start virtual env
