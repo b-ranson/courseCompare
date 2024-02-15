@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.courses-container {
+    height: 50vh;
+    overflow-y: auto;
+    padding: 10px;
+    border-style: solid;
+    width: auto;
+}
+.course-row-header {
+    display: flex;
+    justify-content: space-evenly;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.course-row {
+    display: flex;
+    background-color: antiquewhite;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.course-column {
+    /* float: left;
+    width: 25%; */
+    display: 25%;
+    width: 25%;
+}
+.course-column-button:hover{
+    background-color: none;
+    background-image: 
+    url('tonysirico.jpg');
+}
