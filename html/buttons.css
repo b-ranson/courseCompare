@@ -1,0 +1,17 @@
+.header {
+    padding: 10px;
+}
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    background-color: #007bff;
+    border: navy;
+    width: 30vw;
+}
+.button:hover {
+    background-color: #0056b3;
+}

@@ -1,13 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Compare</title>
+
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'loginStyle.css' %}">
+    
 </head>
 <body>
-    
-    <h1>CourseCompare</h1>
+<!-- look into using post or get method -->
+<form> 
+    <h2>Login</h2>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required>
 
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <input type="submit" value="Login">
+</form>
+
+<div style="text-align: center;">
+    <button type="button"> Forgot Password</button>   
+    <button type="button">Create account</button>  
+</div>
 </body>
 </html>
