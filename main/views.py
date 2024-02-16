@@ -3,14 +3,14 @@ from django.http import HttpResponse
 from django.template import loader
 
 def home(request):
-   print(request.user)
    return render(request, 'home.html', {})
 
 #def login(request):
 #   return render(request, 'login.html', {})
 
 def schedulepage(request):
-   return render(request, 'schedulepage.html', {})
+   username = request.user
+   return render(request, 'schedulepage.html', {'name': username})
 
 def advancedratings(request):
    return render(request, 'advancedratings.html', {})

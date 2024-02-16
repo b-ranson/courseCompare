@@ -1,9 +1,13 @@
+<!-- Header/Nav bar that can now be pulled into template-->
+<!-- Lowkey need to add a little things above this even to show that someone is logged in and a logout button-->
+
 {% load static %}
 
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'loginBar.css' %}">    
     <link rel="stylesheet" type="text/css" href="{% static 'buttons.css' %}">
     <title>{% block title %}My Website{% endblock %}</title>
     {% block head %}{% endblock %}
@@ -11,6 +15,12 @@
 </head>
 
 <body>
+
+    <div class="loginBar">
+        <p>Logged in As: {{ name }}</p>
+        <p>Logout</p> <!-- Need to hyper link this to a logout auth later-->
+    </div>
+
     <header>
         <div class="header">
             <div class="buttons">
