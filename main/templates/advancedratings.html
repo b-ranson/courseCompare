@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'advancedratings.css' %}">
 {% endblock %}
 
+{% if user.is_authenticated %}
 
 {% block content %}
 
@@ -61,6 +62,13 @@
         </div>
 
     </div>
-</body>
 
 {% endblock %}
+
+{% else %}
+    <p>You must go to the <a href = "{% url 'home' %}">login page</a></p>
+
+{% endif %}
+
+</body>
+</html>
