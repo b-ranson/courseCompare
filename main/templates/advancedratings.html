@@ -1,19 +1,15 @@
+{% extends 'buttons.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<head>
+{% block title %}Advanced Ratings {% endblock %}
+{% block head%}
+{{block.super}}
     <link rel="stylesheet" type="text/css" href="{% static 'advancedratings.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'buttons.css' %}">
-</head>
+{% endblock %}
 
-<body>
-    <div class="header">
-        <div class="buttons">
-            <button class="button">Friend Lookup</button>
-            <button class="button">Add Course</button>
-            <button class="button">Schedule</button>
-        </div>
-    </div>
+
+{% block content %}
+
     <!-- Will have to implement all the dynamic template fill-ins here -->
     <div class="course-info">
         <div style="font-weight: bold; font-size: x-large;">Operating Systems</div>
@@ -66,3 +62,5 @@
 
     </div>
 </body>
+
+{% endblock %}

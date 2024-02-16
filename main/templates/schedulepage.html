@@ -1,19 +1,14 @@
+{% extends 'buttons.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<head>
+{% block title %}Schedule Page{% endblock %}
+{% block head%}
+{{block.super}}
     <link rel="stylesheet" type="text/css" href="{% static 'schedulepage.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'buttons.css' %}">
-</head>
+{% endblock %}
 
-<body>
-    <div class="header">
-        <div class="buttons">
-            <button class="button">Friend Lookup</button>
-            <button class="button">Add Course</button>
-            <button class="button">Schedule</button>
-        </div>
-    </div>
+
+{% block content %}
     
     <div class="course-row-header">
         <div class="course-column">
@@ -57,3 +52,5 @@
         </div>
     </div>
 </body>
+
+{% endblock %}
