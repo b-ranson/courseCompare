@@ -7,8 +7,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'advancedratings.css' %}">
 {% endblock %}
 
-{% if user.is_authenticated %}
-
 {% block content %}
 
     <!-- Will have to implement all the dynamic template fill-ins here -->
@@ -64,11 +62,6 @@
     </div>
 
 {% endblock %}
-
-{% else %}
-    <p>You must go to the <a href = "{% url 'home' %}">login page</a></p>
-
-{% endif %}
 
 </body>
 </html>

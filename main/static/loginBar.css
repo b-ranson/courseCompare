@@ -14,4 +14,13 @@
     color: #333; /* Text color */
 }
 
+.linkButton{
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
 /* Additional styling for the login bar, such as font family, text alignment, etc., can be added here */
