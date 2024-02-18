@@ -25,31 +25,22 @@
         </div>
     </div>
 
+
     <div class="courses-container">
+    {% for course in courses %}
         <div class="course-row">
             <div class="course-column">
-                Operating Systems
+                {{ course.courseName }}
             </div>
             <div class="course-column">
-                COP4610
+                {{ course.courseID }}
             </div>
             <div class="course-column">
-                1.2/5.0
+                {{ course.courseRating }}/5.0
             </div>
-            <button class="course-column-button">See more</button> 
+            <a href="{% url 'advancedratings.html' %}" class="course-column-button">See more</a> 
         </div>
-        <div class="course-row">
-            <div class="course-column">
-                Data Structures II
-            </div>
-            <div class="course-column">
-                COP4530
-            </div>
-            <div class="course-column">
-                2.8/5.0
-            </div>  
-            <button class="course-column-button">See more</button> 
-        </div>
+    {% endfor %}
     </div>
 </body>
 
