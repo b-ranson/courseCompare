@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}Advanced Ratings For {{ className }}{% endblock %}
+
 {% block head%}
 {{block.super}}
     <link rel="stylesheet" type="text/css" href="{% static 'advancedratings.css' %}">
@@ -11,7 +12,7 @@
 
     <!-- Will have to implement all the dynamic template fill-ins here -->
     <div class="course-info">
-        <div style="font-weight: bold; font-size: x-large;">Operating Systems</div>
+        <div style="font-weight: bold; font-size: x-large;">{{className}}</div>
         <div>COP4610</div>
         <div>Teacher: An-i Yang</div>
         <div>Section: 005</div>

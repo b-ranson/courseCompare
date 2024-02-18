@@ -3,9 +3,9 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home.html'),
-    path('advancedratings', views.advancedratings, name="advancedratings.html"),
-    path('schedulepage', views.schedulepage, name='schedulepage.html'),
+    path('', views.home, name='home'),
+    path('advancedratings/<str:className>', views.advancedratings, name="advancedratings"),
+    path('schedulepage', views.schedulepage, name='schedulepage'),
 
     # Django Auth
     path('accounts/login', auth_views.LoginView.as_view(template_name="accounts/login.html"), name='login'),

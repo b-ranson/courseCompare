@@ -20,8 +20,15 @@ def schedulepage(request):
    return render(request, 'schedulepage.html', context)
 
 @login_required(login_url='/accounts/login')
-def advancedratings(request):
+def advancedratings(request, className):
 
+   #make db querey here based on className to pull advancedRatings
+   # will hard code what table should look like for now
 
+      
 
-   return render(request, 'advancedratings.html', {})
+   if className is not None:
+      return render(request, 'advancedratings.html', {'className': className})
+   else:
+      return HttpResponse("Not Available")
+      
