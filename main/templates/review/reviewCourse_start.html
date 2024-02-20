@@ -1,0 +1,15 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Course LookUp Start Page{% endblock %}
+
+{% block content %}
+    <h1>User Schedule LookUp</h1>
+    <!-- this will go to separate function and call a query to order, then pass that into the display list html -->
+    <h2><a href="/sort_A_To_Z">Sort by CourseID (A-Z)</a></h2>
+    <h2><a href="/sort_Z_To_A">Sort by CourseID (Z-A)</a></h2>
+
+    <!-- search friend -> reusing the schedule html -->
+    <h2><a href="/searchFriend">Search Course By CourseID</a></h2>
+</body>
+{% endblock %}

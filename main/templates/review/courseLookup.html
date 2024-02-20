@@ -1,0 +1,15 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}CourseID Lookup{% endblock %}
+
+{% block content %}
+    <h1>Course Lookup</h1>
+    <form action="/seeCourses_rev" method = 'POST'>
+        <label for="selectCourse">Enter Course's ID</label>
+        <input type="text" id="courseID" name="courseID" required>
+        <input type="submit" value="courseID">
+    </form>
+    <h4>Example: ADC3243</h4>
+</body>
+{% endblock %}

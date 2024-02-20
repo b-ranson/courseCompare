@@ -1,0 +1,50 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Choose Course To Review Page{% endblock %}
+{% block head%}
+{{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'schedulepage.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <br><br>
+    <h3>{{ persons }} Schedule</h3>
+    <br>
+    
+    <div class="course-row-header">
+        <div class="course-column">
+            Course Name
+        </div>
+        <div class="course-column">
+            Course ID
+        </div>
+        <div class="course-column">
+            Current Course Rating
+        </div>
+        <div class="course-column">
+            Add Review Button
+        </div>
+    </div>
+
+
+    <div class="courses-container">
+    {% for course in courses %}
+        <div class="course-row">
+            <div class="course-column">
+                {{ course.courseName }}
+            </div>
+            <div class="course-column">
+                {{ course.courseID }}
+            </div>
+            <div class="course-column">
+                {{ course.courseRating }}/5.0
+            </div>
+            <a href="{% url 'review' course.courseName %}" class="course-column-button">Add Review</a> 
+        </div>
+    {% endfor %}
+    </div>
+</body>
+
+{% endblock %}
