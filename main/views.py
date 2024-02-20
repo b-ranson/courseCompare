@@ -3,15 +3,26 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 
+###############################################################################
+
+"""
+Renders the home page where users can go to the login page
+"""
 def home(request):
    return render(request, 'home.html', {})
 
 ###############################################################################
 
+"""
+Renders the schedule page for all users
+This is the "home" page after login and where the user should always end up
+"""
 @login_required(login_url='/accounts/login')
 def schedulepage(request, userName):
    # db logic here, or mode to model functions? need to look into more
    # will hard code for right now to update template with jinja syntax
+
+   # need to do querey based on userName
 
    courses = [
       {'courseName': 'Operating Systems', 'courseID':'COP4610', 'courseRating': 1.2},
@@ -24,6 +35,10 @@ def schedulepage(request, userName):
 
 ###############################################################################
 
+"""
+Renders page that shows advanced class ratings for premium users
+If user is not a premium user, needs to redirect to schedule page again (NEED TO IMPLEMENT)
+"""
 @login_required(login_url='/accounts/login')
 def advancedratings(request, className):
 
@@ -65,18 +80,30 @@ def advancedratings(request, className):
 
 ###############################################################################
 
+"""
+Display the page that asks for input on what user to search for
+When submitted, redirects to friendUserResults
+"""
 @login_required(login_url='/accounts/login')
 def friendLookUp(request):
    return render(request, 'FriendLookUp.html', {})
 
 ###############################################################################
 
+"""
+Render the page to submit a review for a course
+### HTML PAGE NEEDS TO BE WRITTEN SO I CAN RENDER AND NOT USE HOME
+"""
 @login_required(login_url='/accounts/login')
 def addCourse(request):
    return render(request, 'home.html', {})
 
 ###############################################################################
 
+"""
+Recieve user to be rendered and display the list of usernames
+If not accessed via post, redirect to home page 
+"""
 @login_required(login_url='/accounts/login')
 def friendUserResults(request):
    if request.method == 'POST':
@@ -94,8 +121,10 @@ def friendUserResults(request):
 
 ###############################################################################
 
-# check if user is logged in , then redirect to their schedule page
-# used during login process
+"""
+Check if user is logged in, then redirect to their respective schedule
+Used after login auth to handle proper redirect
+"""
 def customRedirect(request):
    if request.user.is_authenticated:
       return redirect(f'/schedulepage/{request.user.username}')
