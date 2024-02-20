@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
@@ -6,8 +6,10 @@ from django.contrib.auth.decorators import login_required
 def home(request):
    return render(request, 'home.html', {})
 
+###############################################################################
+
 @login_required(login_url='/accounts/login')
-def schedulepage(request):
+def schedulepage(request, userName):
    # db logic here, or mode to model functions? need to look into more
    # will hard code for right now to update template with jinja syntax
 
@@ -16,8 +18,11 @@ def schedulepage(request):
       {'courseName': 'Data Structures II', 'courseID':'COP4530', 'courseRating': 4.8}
    ]
 
-   context = {'courses': courses}
+
+   context = {'courses': courses, 'username': userName}
    return render(request, 'schedulepage.html', context)
+
+###############################################################################
 
 @login_required(login_url='/accounts/login')
 def advancedratings(request, className):
@@ -57,4 +62,44 @@ def advancedratings(request, className):
       return render(request, 'advancedratings.html', context)
    else:
       return HttpResponse("Not Available")
-      
+
+###############################################################################
+
+@login_required(login_url='/accounts/login')
+def friendLookUp(request):
+   return render(request, 'FriendLookUp.html', {})
+
+###############################################################################
+
+@login_required(login_url='/accounts/login')
+def addCourse(request):
+   return render(request, 'home.html', {})
+
+###############################################################################
+
+@login_required(login_url='/accounts/login')
+def friendUserResults(request):
+   if request.method == 'POST':
+
+      friendName = request.POST['friendUser']
+      print(friendName)
+
+      # will need to querey table to get rest of info once we get username
+
+      context = {'friendName': friendName, 'userID': 'bmb22g', 'numClasses': 5}
+
+      return render(request, 'friendResults.html', context)
+   else:
+      return render(request, 'home.html', {})
+
+###############################################################################
+
+# check if user is logged in , then redirect to their schedule page
+# used during login process
+def customRedirect(request):
+   if request.user.is_authenticated:
+      return redirect(f'/schedulepage/{request.user.username}')
+   else:
+      return redirect('/accounts/login')
+   
+###############################################################################

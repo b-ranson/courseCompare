@@ -6,6 +6,7 @@
 {% block content %}
     <h1>Friend Lookup</h1>
     <form action="/friendUserResults" method = 'POST'>
+        {% csrf_token %}
         <label for="friendUser">Enter Friend's Username</label>
         <input type="text" id="friendUser" name="friendUser" required>
     </form>
