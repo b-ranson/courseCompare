@@ -1,0 +1,14 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Friend Lookup{% endblock %}
+
+{% block content %}
+    <h1>Friend Lookup</h1>
+    <form action="/friendUserResults" method = 'POST'>
+        <label for="friendUser">Enter Friend's Username</label>
+        <input type="text" id="friendUser" name="friendUser" required>
+    </form>
+    <h4>Example: asd22bb</h4>
+</body>
+{% endblock %}
