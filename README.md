@@ -13,7 +13,7 @@ We want to implement a way for FSU Students to be able to view and compare their
 ### Extra Features Implemented Beyond Proposal
 
 ### Separation of Work
-- Aiden
-- Blaine
-- Branson
-- Josh
+- Aiden - Front End
+- Blaine - Distribution / Front End
+- Branson - Back End / Security
+- Josh - Databases
