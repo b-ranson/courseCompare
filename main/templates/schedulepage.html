@@ -1,0 +1,47 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Schedule Page{% endblock %}
+{% block head%}
+{{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'schedulepage.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    
+    <div class="course-row-header">
+        <div class="course-column">
+            Course Name
+        </div>
+        <div class="course-column">
+            Course ID
+        </div>
+        <div class="course-column">
+            Course Rating
+        </div>
+        <div class="course-column">
+            See more button
+        </div>
+    </div>
+
+
+    <div class="courses-container">
+    {% for course in courses %}
+        <div class="course-row">
+            <div class="course-column">
+                {{ course.courseName }}
+            </div>
+            <div class="course-column">
+                {{ course.courseID }}
+            </div>
+            <div class="course-column">
+                {{ course.courseRating }}/5.0
+            </div>
+            <a href="{% url 'advancedratings' course.courseName %}" class="course-column-button">See more</a> 
+        </div>
+    {% endfor %}
+    </div>
+</body>
+
+{% endblock %}
