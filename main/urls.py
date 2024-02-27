@@ -7,7 +7,7 @@ urlpatterns = [
     path('advancedratings/<str:className>', views.advancedratings, name="advancedratings"),
     path('schedulepage/<str:userName>', views.schedulepage, name='schedulepage'),
     path('friendLookUp', views.friendLookUp, name='friendLookUp'),
-    path('addCourse', views.addCourse, name='addCourse'),
+    path('addReview', views.addReview, name='addReview'),
     path('friendUserResults', views.friendUserResults, name='friendUserResults'),
 
     path('customRedirect', views.customRedirect, name='customRedirect'),

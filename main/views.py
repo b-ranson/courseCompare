@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 
+
 ###############################################################################
 
 """
@@ -92,12 +93,19 @@ def friendLookUp(request):
 
 """
 Render the page to submit a review for a course
-### HTML PAGE NEEDS TO BE WRITTEN SO I CAN RENDER AND NOT USE HOME
 """
 @login_required(login_url='/accounts/login')
-def addCourse(request):
-   return render(request, 'home.html', {})
+def addReview(request):
 
+   if request.method == 'GET':
+      return render(request, 'review.html', {})
+   elif request.method == 'POST':
+
+      # will need to do proper input validation
+      examRating = request.POST['examRating']
+
+
+      return render(request, 'review.html', {})
 ###############################################################################
 
 """
@@ -108,6 +116,7 @@ If not accessed via post, redirect to home page
 def friendUserResults(request):
    if request.method == 'POST':
 
+      # basic way to do this, need to research input validation and cleaning
       friendName = request.POST['friendUser']
       print(friendName)
 
