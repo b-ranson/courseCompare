@@ -28,9 +28,10 @@
         <div class="header">
             <div class="buttons">
                 <!-- Put in links for these two buttons later -->
-                <button class="button" onclick="window.location.href = ''">Friend Lookup</button>
-                <button class="button" onclick="window.location.href = ''">Add Course</button>
                 <button class="button" onclick="window.location.href = '{% url 'schedulepage' %}'">Schedule</button>
+                <button class="button" onclick="window.location.href = '{% url 'addCourse' %}'">Add Course</button>
+                <button class="button" onclick="window.location.href = '{% url 'addReview' %}'">Add Review</button>
+                <button class="button" onclick="window.location.href = '{% url 'friendLookUp' %}'">Friend Lookup</button>
             </div>
         </div>
     </header>
