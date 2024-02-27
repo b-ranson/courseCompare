@@ -1,24 +1,45 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 
+
+###############################################################################
+
+"""
+Renders the home page where users can go to the login page
+"""
 def home(request):
    return render(request, 'home.html', {})
 
+###############################################################################
+
+"""
+Renders the schedule page for all users
+This is the "home" page after login and where the user should always end up
+"""
 @login_required(login_url='/accounts/login')
-def schedulepage(request):
+def schedulepage(request, userName):
    # db logic here, or mode to model functions? need to look into more
    # will hard code for right now to update template with jinja syntax
+
+   # need to do querey based on userName
 
    courses = [
       {'courseName': 'Operating Systems', 'courseID':'COP4610', 'courseRating': 1.2},
       {'courseName': 'Data Structures II', 'courseID':'COP4530', 'courseRating': 4.8}
    ]
 
-   context = {'courses': courses}
+
+   context = {'courses': courses, 'username': userName}
    return render(request, 'schedulepage.html', context)
 
+###############################################################################
+
+"""
+Renders page that shows advanced class ratings for premium users
+If user is not a premium user, needs to redirect to schedule page again (NEED TO IMPLEMENT)
+"""
 @login_required(login_url='/accounts/login')
 def advancedratings(request, className):
 
@@ -57,4 +78,66 @@ def advancedratings(request, className):
       return render(request, 'advancedratings.html', context)
    else:
       return HttpResponse("Not Available")
-      
+
+###############################################################################
+
+"""
+Display the page that asks for input on what user to search for
+When submitted, redirects to friendUserResults
+"""
+@login_required(login_url='/accounts/login')
+def friendLookUp(request):
+   return render(request, 'FriendLookUp.html', {})
+
+###############################################################################
+
+"""
+Render the page to submit a review for a course
+"""
+@login_required(login_url='/accounts/login')
+def addReview(request):
+
+   if request.method == 'GET':
+      return render(request, 'review.html', {})
+   elif request.method == 'POST':
+
+      # will need to do proper input validation
+      examRating = request.POST['examRating']
+
+
+      return render(request, 'review.html', {})
+###############################################################################
+
+"""
+Recieve user to be rendered and display the list of usernames
+If not accessed via post, redirect to home page 
+"""
+@login_required(login_url='/accounts/login')
+def friendUserResults(request):
+   if request.method == 'POST':
+
+      # basic way to do this, need to research input validation and cleaning
+      friendName = request.POST['friendUser']
+      print(friendName)
+
+      # will need to querey table to get rest of info once we get username
+
+      context = {'friendName': friendName, 'userID': 'bmb22g', 'numClasses': 5}
+
+      return render(request, 'friendResults.html', context)
+   else:
+      return render(request, 'home.html', {})
+
+###############################################################################
+
+"""
+Check if user is logged in, then redirect to their respective schedule
+Used after login auth to handle proper redirect
+"""
+def customRedirect(request):
+   if request.user.is_authenticated:
+      return redirect(f'/schedulepage/{request.user.username}')
+   else:
+      return redirect('/accounts/login')
+   
+###############################################################################

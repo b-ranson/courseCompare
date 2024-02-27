@@ -7,7 +7,8 @@
 
     <h3>Enter the Difficulty for the Following Aspects of the Course: {{ courseName }}</h3> <br>
     <h4>1 = easy, 5 = Difficulty (0 for didnt have it)</h4><br><br>
-    <form action="/review" method = 'POST'>
+    <form action="/addReview" method = 'POST'>
+        {% csrf_token %}
         <label for="examRating">Exam Difficulty</label>
         <input type="range" id="examRating" name="examRating" min = "0" max = "5" required><br>
 
