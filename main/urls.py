@@ -9,7 +9,7 @@ urlpatterns = [
     path('friendLookUp', views.friendLookUp, name='friendLookUp'),
     path('addReview', views.addReview, name='addReview'),
     path('friendUserResults', views.friendUserResults, name='friendUserResults'),
-
+    path('addCourse', views.addCourse, name="addCourse"),
     path('customRedirect', views.customRedirect, name='customRedirect'),
 
     # Django Auth

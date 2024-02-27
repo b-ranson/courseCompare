@@ -32,7 +32,7 @@ def schedulepage(request, userName):
 
 
    context = {'courses': courses, 'username': userName}
-   return render(request, 'schedulepage.html', context)
+   return render(request, 'scheduleAndRatings/schedulepage.html', context)
 
 ###############################################################################
 
@@ -75,7 +75,7 @@ def advancedratings(request, className):
       context = { 'courses': courseDSII, 'advRatings': advancedRatingsDSII, 'className': className }
 
    if className is not None:
-      return render(request, 'advancedratings.html', context)
+      return render(request, 'scheduleAndRatings/advancedratings.html', context)
    else:
       return HttpResponse("Not Available")
 
@@ -87,7 +87,7 @@ When submitted, redirects to friendUserResults
 """
 @login_required(login_url='/accounts/login')
 def friendLookUp(request):
-   return render(request, 'FriendLookUp.html', {})
+   return render(request, 'userLookup/FriendLookUp.html', {})
 
 ###############################################################################
 
@@ -98,14 +98,14 @@ Render the page to submit a review for a course
 def addReview(request):
 
    if request.method == 'GET':
-      return render(request, 'review.html', {})
+      return render(request, 'review/review.html', {})
    elif request.method == 'POST':
 
       # will need to do proper input validation
       examRating = request.POST['examRating']
 
 
-      return render(request, 'review.html', {})
+      return render(request, 'review/review.html', {})
 ###############################################################################
 
 """
@@ -124,9 +124,16 @@ def friendUserResults(request):
 
       context = {'friendName': friendName, 'userID': 'bmb22g', 'numClasses': 5}
 
-      return render(request, 'friendResults.html', context)
+      return render(request, 'userLookup/friendResults.html', context)
+   
    else:
       return render(request, 'home.html', {})
+
+###############################################################################
+
+@login_required(login_url='/accounts/login')
+def addCourse(request):
+   return render(request, 'home.html', {})
 
 ###############################################################################
 
