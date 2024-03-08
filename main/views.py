@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
+from . import forms
 
 
 ###############################################################################
@@ -43,15 +44,7 @@ If user is not a premium user, needs to redirect to schedule page again (NEED TO
 @login_required(login_url='/accounts/login')
 def advancedratings(request, className):
 
-   #make db querey here based on className to pull advancedRatings
-   # will hard code what table should look like for now
-
-   # course name and ID, prof, section (this might be too tax to implement)
-   # exam dif, hw dif, lecture dif, workload, total diff (all floats 0-5, prob averaged by integer inputs)
-
-   #className gets passed in, then need to read db and pass vv this stuff
-   # then need to pull advanced ratings from same class name and pass it
-
+   # make db querey here based on className parameter to pull advancedRatings
 
    courseOS = [
       {'courseName': 'Operating Systems', 'courseID':'COP4610', 'prof': 'Andy Wang', 'courseSection': '005'},
@@ -66,7 +59,6 @@ def advancedratings(request, className):
    advancedRatingsDSII = [
       {'examDif': 4.6, 'hwDif': 2.8, 'lectDif': 3.3, 'workload': 4.1, 'avg': round((4.6 + 2.8 + 3.3 + 4.1)/5.0, 1)},
    ]
-
 
    context = {}
    if className == 'Operating Systems':
@@ -101,9 +93,15 @@ def addReview(request):
       return render(request, 'review/review.html', {})
    elif request.method == 'POST':
 
-      # will need to do proper input validation
-      examRating = request.POST['examRating']
+      # josh all for you for queries
+      form = forms.CourseReviewForm(request.POST)
+      if form.is_valid():
+         examRating = form.cleaned_data['examRating']
+         homeworkRating = form.cleaned_data['homeworkRating']
+         lectureRating = form.cleaned_data['lectureRating']
+         workloadRating = form.cleaned_data['workloadRating']
 
+         # add these to respective row in table here (make sure inside if) 
 
       return render(request, 'review/review.html', {})
 ###############################################################################
@@ -116,12 +114,14 @@ If not accessed via post, redirect to home page
 def friendUserResults(request):
    if request.method == 'POST':
 
-      # basic way to do this, need to research input validation and cleaning
-      friendName = request.POST['friendUser']
-      print(friendName)
+      form = forms.FriendLookUpForm(request.POST)
+      if form.is_valid():
+         friendName = form.cleaned_data['friendUser']
+         print(friendName)
 
-      # will need to querey table to get rest of info once we get username
-
+      # will need to query table to get rest of info once we get username
+      # hard coding for now
+      # if there is a way to make sql query a dict like this, would make implementing very easy
       context = {'friendName': friendName, 'userID': 'bmb22g', 'numClasses': 5}
 
       return render(request, 'userLookup/friendResults.html', context)
@@ -148,3 +148,22 @@ def customRedirect(request):
       return redirect('/accounts/login')
    
 ###############################################################################
+
+def registration(request):
+   if request.method == 'GET':
+      return render(request, 'accounts/registration.html', {})
+   elif request.method == 'POST':
+
+      form = forms.RegistrationForm(request.POST)
+      if form.is_valid():
+         userName =  form.cleaned_data['userName']
+         password = form.cleaned_data['password']
+         firstName = form.cleaned_data['firstName']
+         lastName = form.cleaned_data['lastName']
+         email = form.cleaned_data['email']
+
+         # add user info to db here
+         
+         return redirect('/accounts/login')
+      else:
+         return redirect('/accounts/registration')

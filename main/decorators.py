@@ -5,7 +5,7 @@ def unauthed_user(view_func): #this is used to keep users that are not logged on
     #use a @unauthed_user to make a page like this
     def wrapper_func(request, *args, **kwargs):
         if not request.user.is_authenticated:
-            redirect('login') #this should show the login page
+            redirect('/accounts/login') #this should show the login page
         else:
             return view_func(request, *args, **kwargs)
     

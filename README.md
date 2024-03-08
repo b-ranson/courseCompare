@@ -8,6 +8,7 @@ We want to implement a way for FSU Students to be able to view and compare their
 
 ### Libraries Being Used
 - Django framework
+- MySQL
 ### Other Resources
 - N/A
 ### Extra Features Implemented Beyond Proposal
