@@ -13,6 +13,8 @@ We want to implement a way for FSU Students to be able to view and compare their
 - N/A
 ### Extra Features Implemented Beyond Proposal
 
+### Features From Proposal We Did Not Implement
+
 ### Separation of Work
 - Aiden - Front End
 - Blaine - Distribution / Front End

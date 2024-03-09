@@ -2,11 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.hashers import check_password
-from django.contrib.auth.hashers import make_password
 from . import models
 from django.utils import timezone
-
 
 from . import forms
 from . import models
@@ -96,18 +93,18 @@ Render the page to submit a review for a course
 def addReview(request):
 
    if request.method == 'GET':
+
+      # here need query of all available classes to rate and then pass into the html file (josh)
+      # have selection as a drop down (aiden)
+
       return render(request, 'review/review.html', {})
    elif request.method == 'POST':
 
-      # josh all for you for queries
+      # josh all for you for queries to add new averages into db for respective class
+      # (lmk when the course selection stuff is added and ill add it to the form method)
       form = forms.CourseReviewForm(request.POST)
       if form.is_valid():
-         examRating = form.cleaned_data['examRating']
-         homeworkRating = form.cleaned_data['homeworkRating']
-         lectureRating = form.cleaned_data['lectureRating']
-         workloadRating = form.cleaned_data['workloadRating']
-
-         # add these to respective row in table here (make sure inside if) 
+         examRating, homeworkRating, lectureRating, workloadRating = form.getCleanInput()
 
       return render(request, 'review/review.html', {})
 ###############################################################################
@@ -128,6 +125,7 @@ def friendUserResults(request):
       # will need to query table to get rest of info once we get username
       # hard coding for now
       # if there is a way to make sql query a dict like this, would make implementing very easy
+      # still need to pass context as dict for html templatex
       context = {'friendName': friendName, 'userID': 'bmb22g', 'numClasses': 5}
 
       return render(request, 'userLookup/friendResults.html', context)
@@ -144,17 +142,9 @@ def addCourse(request):
 ###############################################################################
 
 """
-Check if user is logged in, then redirect to their respective schedule
-Used after login auth to handle proper redirect
+Registration page for users to create account. Defaults to basic, nonstaff
+and non sudo account. Also confirms that email is an fsu email
 """
-def customRedirect(request):
-   if request.user.is_authenticated:
-      return redirect(f'/schedulepage/{request.user.username}')
-   else:
-      return redirect('/accounts/login')
-   
-###############################################################################
-
 def registration(request):
    if request.method == 'GET':
       return render(request, 'accounts/registration.html', {})
@@ -162,12 +152,9 @@ def registration(request):
 
       form = forms.RegistrationForm(request.POST)
       if form.is_valid():
-         username =  form.cleaned_data['username'].upper()
-         password = form.cleaned_data['password']
-         firstName = form.cleaned_data['firstName'].upper()
-         lastName = form.cleaned_data['lastName'].upper()
-         email = form.cleaned_data['email'].upper()
-
+         username, password, firstName, lastName, email = form.getCleanInput()
+         if not form.emailCheck():
+            return HttpResponse("Must use FSU email to create account.")
          user = models.MyCustomUser.objects.create_user(email=email, 
                                                         password=password,
                                                         username=username,
@@ -179,32 +166,30 @@ def registration(request):
                                                         date_joined=timezone.now(),
                                                         last_login=None)
          
-         print(user)
-         
          return redirect('/accounts/login')
       else:
-         print("damn")
          return redirect('/accounts/registration')
-      
+
+###############################################################################
+
+"""
+Login function 
+"""
 def userLogin(request):
    if request.method == 'GET':
       return render(request, 'accounts/login.html', {})
+
    elif request.method == 'POST':
+
       form = forms.LoginForm(request.POST)
       if form.is_valid():
-         username =  form.cleaned_data['username'].upper()
-         password = form.cleaned_data['password']
-
-         print(username, password)
+         username, password = form.getCleanInput()
          user = authenticate(request, username=username, password=password)
-         print(user)
-
-         
 
          if user is not None:
             login(request, user)
-            return redirect(f'/schedulepage/{request.user.username}')
-         print ("made it")
-         return render(request, 'accounts/login.html', {})
+            return redirect(f'/schedulepage/{request.user.username}')         
+         else:
+            return HttpResponse("Incorrect Username or Password")
       else:
-         return HttpResponse("bruh")
+         return HttpResponse("Incorrect Username or Password")

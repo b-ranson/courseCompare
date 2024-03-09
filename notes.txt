@@ -3,3 +3,8 @@ source courseEnv/Scripts/activate # start virtual env # not really necessary sin
 
 
 pip install pymysql
+
+IMPORTANT (How to setup db on new instance after creating db and everything):
+python3 manage.py makemigrations
+python3 manage.py migrate main
+python3 manage.py migrate 

@@ -10,7 +10,7 @@ urlpatterns = [
     path('addReview', views.addReview, name='addReview'),
     path('friendUserResults', views.friendUserResults, name='friendUserResults'),
     path('addCourse', views.addCourse, name="addCourse"),
-    path('customRedirect', views.customRedirect, name='customRedirect'),
+#    path('customRedirect', views.customRedirect, name='customRedirect'),
     path('accounts/registration', views.registration, name='registration'),
     path('accounts/login', views.userLogin, name='userLogin'),
 
