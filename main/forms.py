@@ -10,8 +10,12 @@ class FriendLookUpForm(forms.Form):
     friendUser = forms.CharField(max_length=50, required=True)
 
 class RegistrationForm(forms.Form):
-    userName = forms.CharField(max_length=50, required=True)
+    username = forms.CharField(max_length=50, required=True)
     password = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput())
     firstName = forms.CharField(max_length=50, required=True)
     lastName = forms.CharField(max_length=50, required=True)
     email = forms.EmailField(max_length=50, required=True, widget=forms.EmailInput())
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50, required=True)
+    password = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput())

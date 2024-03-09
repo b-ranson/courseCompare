@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.template import loader
 from django.contrib.auth.decorators import login_required
-from . import forms
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password
+from . import models
+from django.utils import timezone
 
+
+from . import forms
+from . import models
 
 ###############################################################################
 
@@ -156,14 +162,49 @@ def registration(request):
 
       form = forms.RegistrationForm(request.POST)
       if form.is_valid():
-         userName =  form.cleaned_data['userName']
+         username =  form.cleaned_data['username'].upper()
          password = form.cleaned_data['password']
-         firstName = form.cleaned_data['firstName']
-         lastName = form.cleaned_data['lastName']
-         email = form.cleaned_data['email']
+         firstName = form.cleaned_data['firstName'].upper()
+         lastName = form.cleaned_data['lastName'].upper()
+         email = form.cleaned_data['email'].upper()
 
-         # add user info to db here
+         user = models.MyCustomUser.objects.create_user(email=email, 
+                                                        password=password,
+                                                        username=username,
+                                                        first_name=firstName,
+                                                        last_name=lastName,
+                                                        is_superuser=False,
+                                                        is_active=True,
+                                                        is_staff=False,
+                                                        date_joined=timezone.now(),
+                                                        last_login=None)
+         
+         print(user)
          
          return redirect('/accounts/login')
       else:
+         print("damn")
          return redirect('/accounts/registration')
+      
+def userLogin(request):
+   if request.method == 'GET':
+      return render(request, 'accounts/login.html', {})
+   elif request.method == 'POST':
+      form = forms.LoginForm(request.POST)
+      if form.is_valid():
+         username =  form.cleaned_data['username'].upper()
+         password = form.cleaned_data['password']
+
+         print(username, password)
+         user = authenticate(request, username=username, password=password)
+         print(user)
+
+         
+
+         if user is not None:
+            login(request, user)
+            return redirect(f'/schedulepage/{request.user.username}')
+         print ("made it")
+         return render(request, 'accounts/login.html', {})
+      else:
+         return HttpResponse("bruh")
