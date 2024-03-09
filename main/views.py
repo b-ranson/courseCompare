@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from . import models
 from django.utils import timezone
 
 from . import forms
@@ -63,6 +62,7 @@ def advancedratings(request, className):
       {'examDif': 4.6, 'hwDif': 2.8, 'lectDif': 3.3, 'workload': 4.1, 'avg': round((4.6 + 2.8 + 3.3 + 4.1)/5.0, 1)},
    ]
 
+   # replace this with just filling context with whatever the query returns
    context = {}
    if className == 'Operating Systems':
       context = { 'courses': courseOS, 'advRatings': advancedRatingsOS, 'className': className }
