@@ -41,7 +41,7 @@
             <div class="course-column">
                 {{ course.courseRating }}/5.0
             </div>
-            <a href="{% url 'advancedratings' course.courseName %}" class="course-column-button">See more</a> 
+            <a href="{% url 'advancedratings' course.courseIncID %}" class="course-column-button">See more</a> 
         </div>
     {% endfor %}
     </div>

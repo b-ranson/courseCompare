@@ -6,8 +6,9 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 # Create your models here.
 
 class Courses(models.Model):
-    courseID = models.IntegerField()
+    courseID = models.AutoField(primary_key=True)
     courseNumber = models.IntegerField()
+    courseName = models.CharField(max_length=75)
     courseLetters = models.CharField(max_length=3)
     professor = models.CharField(max_length=45)
     homeworkDiff = models.IntegerField()
@@ -48,6 +49,7 @@ class MyCustomUser(AbstractUser):
     username = models.CharField(max_length=75, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(null=True, blank=True)
+    #isAdvUser = models.BooleanField(default = False)
 
     objects = CustomUserManager()
     USERNAME_FIELD = "username"
