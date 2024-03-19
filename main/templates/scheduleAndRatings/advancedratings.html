@@ -12,24 +12,21 @@
 
     <!-- Will have to implement all the dynamic template fill-ins here -->
 
-{% for course in courses %}
 
     <div class="course-info">
         <div style="font-weight: bold; font-size: x-large;">{{course.courseName}}</div>
-        <div>{{ course.courseID }}</div>
-        <div>Professor: {{ course.prof }}</div>
-        <div>Section: {{ course.courseSection }}</div>
+        <div>{{ courses.courseID }}</div>
+        <div>Professor: {{ courses.prof }}</div>
+        <div>Section: {{ courses.courseSection }}</div>
     </div>
-{% endfor %}
 
-{% for rating in advRatings%}
     <div class="advancedratings">
         <div class="row">
             <div class="column-title">
                 Exam Difficulty
             </div>
             <div class="column-rating">
-                {{ rating.examDif }}/5.0
+                {{ advRatings.examDif }}/5.0
             </div>
         </div>
         <div class="row">
@@ -37,7 +34,7 @@
                 Homework Difficulty
             </div>
             <div class="column-rating">
-                {{ rating.hwDif }}/5.0
+                {{ advRatings.hwDif }}/5.0
             </div>
         </div>
         <div class="row">
@@ -45,7 +42,7 @@
                 Lecture Difficulty
             </div>
             <div class="column-rating">
-                {{ rating.lectDif }}/5.0
+                {{ advRatings.lectDif }}/5.0
             </div>
         </div>
         <div class="row">
@@ -53,7 +50,7 @@
                 Workload
             </div>
             <div class="column-rating">
-                {{ rating.workload }}/5.0
+                {{ advRatings.workload }}/5.0
             </div>
         </div>
         <div class="row" style="margin-top: 1vh;">
@@ -61,13 +58,12 @@
                 Total Difficulty
             </div>
             <div class="column-rating">
-                {{ rating.avg }}/5.0
+                {{ advRatings.avg }}/5.0
             </div>
         </div>
 
     </div>
 
-{% endfor %}
 
     <p>Maybe we add user-reviews down here? lots of real estate to be used</p>
 

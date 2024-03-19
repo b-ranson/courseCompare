@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.utils import timezone
+from .models import *
 
 from . import forms
 from . import models
@@ -28,11 +29,13 @@ def schedulepage(request, userName):
 
    # need to do querey based on userName
 
-   courses = [
-      {'courseName': 'Operating Systems', 'courseID':'COP4610', 'courseRating': 1.2},
-      {'courseName': 'Data Structures II', 'courseID':'COP4530', 'courseRating': 4.8}
-   ]
+   cTaking = CourseTaking.objects.all().filter(username = userName)
 
+   courses = []
+
+   for x in cTaking:
+      course = Courses.objects.get(courseID = x.courseID)
+      courses.append({'courseID': course.courseLetters + str(course.courseNumber),'courseName': course.courseName,'courseRating':round((course.homeworkDiff+course.lectureDiff+course.workLoad+course.examDiff)/4),'courseIncID':course.courseID})
 
    context = {'courses': courses, 'username': userName}
    return render(request, 'scheduleAndRatings/schedulepage.html', context)
@@ -44,32 +47,16 @@ Renders page that shows advanced class ratings for premium users
 If user is not a premium user, needs to redirect to schedule page again (NEED TO IMPLEMENT)
 """
 @login_required(login_url='/accounts/login')
-def advancedratings(request, className):
+def advancedratings(request,courseIDR):
 
-   # make db querey here based on className parameter to pull advancedRatings
+   # make db querey here based on courseID parameter to pull advancedRating
+   course = Courses.objects.get(courseID = courseIDR)
+   courseData = {'courseName': course.courseName, 'courseID':course.courseLetters + str(course.courseNumber), 'prof': course.professor, 'courseSection': '002'}
+   advRating = {'examDif': course.examDiff, 'hwDif':course.homeworkDiff, 'lectDif': course.lectureDiff, 'workload': course.workLoad, 'avg': round((course.homeworkDiff+course.lectureDiff+course.workLoad+course.examDiff)/4),'courseIncID':course.courseID}
+   context = {'courses': courseData, 'advRatings': advRating, 'className': course.courseName}
 
-   courseOS = [
-      {'courseName': 'Operating Systems', 'courseID':'COP4610', 'prof': 'Andy Wang', 'courseSection': '005'},
-   ]
-   advancedRatingsOS = [
-      {'examDif': 2.3, 'hwDif': 3.7, 'lectDif': 2.8, 'workload': 4.8, 'avg': round((2.3 + 3.7 + 2.8 + 4.8)/5.0, 1)},
-   ]
 
-   courseDSII = [
-      {'courseName': 'Data Structures II', 'courseID':'COP4530', 'prof': 'Bob Myers', 'courseSection': '002'},
-   ]
-   advancedRatingsDSII = [
-      {'examDif': 4.6, 'hwDif': 2.8, 'lectDif': 3.3, 'workload': 4.1, 'avg': round((4.6 + 2.8 + 3.3 + 4.1)/5.0, 1)},
-   ]
-
-   # replace this with just filling context with whatever the query returns
-   context = {}
-   if className == 'Operating Systems':
-      context = { 'courses': courseOS, 'advRatings': advancedRatingsOS, 'className': className }
-   elif className == 'Data Structures II':
-      context = { 'courses': courseDSII, 'advRatings': advancedRatingsDSII, 'className': className }
-
-   if className is not None:
+   if courseIDR is not None:
       return render(request, 'scheduleAndRatings/advancedratings.html', context)
    else:
       return HttpResponse("Not Available")

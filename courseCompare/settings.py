@@ -80,17 +80,13 @@ WSGI_APPLICATION = 'courseCompare.wsgi.application'
 DATABASES = {
      'default': {     
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'coursecompare',
+        'NAME': 'courseCompare',
         'USER': 'root',
         'PASSWORD': 'Jb162814',
         'HOST': 'localhost',
         'PORT':'3306'
      }
 }
-"""
-'ENGINE': 'django.db.backends.sqlite3',
-'NAME': 'db.sqlite3'
-"""
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
