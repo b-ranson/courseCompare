@@ -118,12 +118,9 @@ def friendUserResults(request):
       if form.is_valid():
          friendUserName = form.cleaned_data['friendUser']
          friend = models.MyCustomUser.objects.get(username = friendUserName)
-      # will need to query table to get rest of info once we get username
-      # hard coding for now
-      # if there is a way to make sql query a dict like this, would make implementing very easy
          
          numClasses = CourseTaking.objects.filter(username = friend.username).count()
-      # still need to pass context as dict for html templatex
+
       context = {'friendName': friend.username, 'userID': friend.id, 'numClasses': numClasses}
 
       return render(request, 'userLookup/friendResults.html', context)
@@ -133,9 +130,18 @@ def friendUserResults(request):
 
 ###############################################################################
 
+"""
+Page where users can view and add courses to their schedule on their account
+"""
 @login_required(login_url='/accounts/login')
 def addCourse(request):
-   return render(request, 'home.html', {})
+
+   # need to do queries for available courses and pass in whatever data the addCourse_schedule.html page needs
+   context = {}
+
+   if request.method == 'GET':
+      return render(request, 'addCourse/addCourse_schedule.html', context)
+
 
 ###############################################################################
 
