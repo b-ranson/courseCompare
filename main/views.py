@@ -140,7 +140,10 @@ def addCourse(request):
    context = {}
 
    if request.method == 'GET':
-      return render(request, 'addCourse/addCourse_schedule.html', context)
+      return render(request, 'addCourse/searchCourse.html', context)
+   elif request.method == 'POST':
+         return render(request, 'addCourse/addCourse_schedule.html', context)
+
 
 
 ###############################################################################
