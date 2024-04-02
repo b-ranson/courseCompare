@@ -42,6 +42,13 @@
                 {{ course.courseRating }}/5.0
             </div>
             <a href="{% url 'advancedratings' course.courseIncID %}" class="course-column-button">See more</a> 
+            <div>
+            <form action="{% url 'deleteCourseFromSch' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="courseID" value = {{course.courseIncID}}>
+                <input type="submit" value="Delete Course">
+            </form>
+            </div>
         </div>
     {% endfor %}
     </div>
