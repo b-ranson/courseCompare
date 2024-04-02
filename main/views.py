@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.utils import timezone
 from .models import *
+from django.db.models import Count
 
 from . import forms
 from . import models
@@ -47,6 +48,7 @@ Renders page that shows advanced class ratings for premium users
 If user is not a premium user, needs to redirect to schedule page again (NEED TO IMPLEMENT)
 """
 @login_required(login_url='/accounts/login')
+@allowed_user(allowed_roles = ['PAIDUSER'])
 def advancedratings(request,courseIDR):
 
    # make db querey here based on courseID parameter to pull advancedRating
@@ -106,14 +108,15 @@ def friendUserResults(request):
 
       form = forms.FriendLookUpForm(request.POST)
       if form.is_valid():
-         friendName = form.cleaned_data['friendUser']
-         print(friendName)
-
+         friendUserName = form.cleaned_data['friendUser']
+         friend = models.MyCustomUser.objects.get(username = friendUserName)
       # will need to query table to get rest of info once we get username
       # hard coding for now
       # if there is a way to make sql query a dict like this, would make implementing very easy
+         
+         numClasses = CourseTaking.objects.filter(username = friend.username).count()
       # still need to pass context as dict for html templatex
-      context = {'friendName': friendName, 'userID': 'bmb22g', 'numClasses': 5}
+      context = {'friendName': friend.username, 'userID': friend.id, 'numClasses': numClasses}
 
       return render(request, 'userLookup/friendResults.html', context)
    

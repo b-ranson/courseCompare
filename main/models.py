@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
+from .decorators import *
+
 # Create your models here.
 
 class Courses(models.Model):
@@ -49,7 +51,13 @@ class MyCustomUser(AbstractUser):
     username = models.CharField(max_length=75, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(null=True, blank=True)
-    #isAdvUser = models.BooleanField(default = False)
+    
+
+    class Types(models.TextChoices):
+        PAIDUSER = "PAIDUSER", "Paiduser"
+        BASEUSER = "BASEUSER", "Baseuser"
+
+    type = models.CharField(("Types"), max_length = 50, choices = Types.choices, default = Types.BASEUSER)
 
     objects = CustomUserManager()
     USERNAME_FIELD = "username"
@@ -57,3 +65,16 @@ class MyCustomUser(AbstractUser):
  
     def __str__(self):
         return self.username
+    
+
+
+
+class Baseuser(MyCustomUser):
+    class meta:
+        proxy = True
+
+
+class Paiduser(MyCustomUser):
+
+    class meta:
+        proxy = True
