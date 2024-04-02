@@ -93,7 +93,15 @@ def addReview(request):
       # (lmk when the course selection stuff is added and ill add it to the form method)
       form = forms.CourseReviewForm(request.POST)
       if form.is_valid():
-         examRating, homeworkRating, lectureRating, workloadRating = form.getCleanInput()
+         examRating, homeworkRating, lectureRating, workloadRating, courseID = form.getCleanInput()
+
+      Course = Courses.objects.get(courseID = courseID)
+      Course.numOfRatings = Course.numOfRatings + 1
+      Course.examDiff = (Course.examDiff * Course.numOfRatings + examRating)/Course.numOfRating
+      Course.lectureDiff = (Course.lectureDiff * Course.numOfRatings + lectureRating)/Course.numOfRating
+      Course.workLoad = (Course.workLoad * Course.numOfRatings + workloadRating)/Course.numOfRating
+      Course.homeworkDiff = (Course.homeworkDiff * Course.numOfRatings + homeworkRating)/Course.numOfRating
+      Course.save()
 
       return render(request, 'review/review.html', {})
 ###############################################################################
@@ -183,3 +191,12 @@ def userLogin(request):
             return HttpResponse("Incorrect Username or Password")
       else:
          return HttpResponse("Incorrect Username or Password")
+      
+
+###############################################################################
+      
+@login_required(login_url='/accounts/login')
+def paiduserupgrade(request):
+   group = Group.objects.get(name="PAIDUSER")
+   request.user.groups.add(group)
+   return redirect(f'/schedulepage/{request.user.username}') 
