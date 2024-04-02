@@ -32,6 +32,8 @@ class CustomUserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save()
+        group = Group.objects.get(name="BASEUSER")
+        user.groups.add(group)
         return user
     
     def create_superuser(self, email, password, **extra_fields):
@@ -51,30 +53,13 @@ class MyCustomUser(AbstractUser):
     username = models.CharField(max_length=75, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(null=True, blank=True)
-    
 
-    class Types(models.TextChoices):
-        PAIDUSER = "PAIDUSER", "Paiduser"
-        BASEUSER = "BASEUSER", "Baseuser"
-
-    type = models.CharField(("Types"), max_length = 50, choices = Types.choices, default = Types.BASEUSER)
 
     objects = CustomUserManager()
     USERNAME_FIELD = "username"
-#    REQUIRED_FIELDS = ["username"]
  
     def __str__(self):
         return self.username
     
-
-
-
-class Baseuser(MyCustomUser):
-    class meta:
-        proxy = True
-
-
-class Paiduser(MyCustomUser):
-
-    class meta:
-        proxy = True
+class CustomGroup(Group):
+    description = models.TextField(blank=True)
