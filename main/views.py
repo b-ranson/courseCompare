@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.utils import timezone
 from .models import *
 from django.db.models import Count
+from django.db.models import Q
 
 from . import forms
 from . import models
@@ -83,8 +84,7 @@ def addReview(request):
 
    if request.method == 'GET':
 
-      # here need query of all available classes to rate and then pass into the html file (josh)
-      # have selection as a drop down (aiden)
+      allCourses = Courses.objects.all()
 
       return render(request, 'review/review.html', {})
    elif request.method == 'POST':
@@ -146,12 +146,32 @@ def addCourse(request):
 
          coursePrefix, courseNumber = form.getCleanInput()
 
-         # need to do queries for available courses and pass in whatever data the addCourse_schedule.html page needs
-         context = {}
-         return render(request, 'addCourse/addCourse_schedule.html', context)
+         coursePrefix.upper()
+
+         allCourses = Courses.objects.all().filter(Q(courseLetters = coursePrefix) | Q(courseNumber = courseNumber))
+         course = []
+         for x in allCourses:
+            course.append({'courseName': x.courseName,'courseID':x.courseID,'courseRating': round((x.homeworkDiff+x.lectureDiff+x.workLoad+x.examDiff)/4)})
+         contex = {'courses':course}
+         return render(request, 'addCourse/addCourse_schedule.html', contex)
       else:
          return render(request, 'home.html')
 
+@login_required(login_url='/accounts/login')
+def addCourseToSchedule(request):
+   if request.method == 'POST':
+      set = CourseTaking.objects.all().filter(username = request.user.username, courseID = request.POST['courseID'])
+      if not set:
+         CourseTaking.objects.create(username = request.user.username, courseID = request.POST['courseID'])
+      return redirect(f'/schedulepage/{request.user.username}')
+   
+
+@login_required(login_url='/accounts/login')
+def deleteCourseFromSch(request):
+   if request.method == 'POST':
+      delObject = CourseTaking.objects.get(username = request.user.username, courseID = request.POST['courseID'])
+      delObject.delete()
+      return redirect(f'/schedulepage/{request.user.username}')
 
 
 ###############################################################################
@@ -231,6 +251,6 @@ def forgotPassword(request):
       if form.is_valid():
          username, email, newPassword, confirmPassword = form.getCleanInput()
 
-         # make sure that username / email exist in DB and new/confirm match, then update db with new pass
+         
 
       return redirect('/accounts/login')

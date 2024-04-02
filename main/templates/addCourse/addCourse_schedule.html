@@ -41,10 +41,16 @@
             <div class="course-column">
                 {{ course.courseRating }}/5.0
             </div>
-            
+            <div>
             <a href="{% url 'advancedratings' course.courseName %}" class="course-column-button">See more</a> 
-            
-            <a href="{% url 'schedulepage' user.userID %}" class="course-column-button">Add Class</a> 
+            </div>
+            <div>
+            <form action="{% url 'addCourseToSchedule' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="courseID" value = {{course.courseID}}>
+                <input type="submit" value="Add Course">
+            </form>
+            </div>
         </div>
     {% endfor %}
     </div>

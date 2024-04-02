@@ -11,6 +11,8 @@ urlpatterns = [
     path('friendUserResults', views.friendUserResults, name='friendUserResults'),
     path('addCourse', views.addCourse, name="addCourse"),
     path('paiduserupgrade', views.paiduserupgrade, name="paiduserupgrade"),
+    path('addCourseToSchedule', views.addCourseToSchedule, name="addCourseToSchedule"),
+    path('deleteCourseFromSch', views.deleteCourseFromSch, name="deleteCourseFromSch"),
 #    path('customRedirect', views.customRedirect, name='customRedirect'),
     path('accounts/registration', views.registration, name='registration'),
     path('accounts/login', views.userLogin, name='userLogin'),
@@ -22,6 +24,5 @@ urlpatterns = [
     path('accounts/logout', auth_views.LogoutView.as_view(template_name="accounts/logout.html"), name="logout")
 
 ]
-
 
 # path('accounts/', include('django.contrib.auth.urls')),
