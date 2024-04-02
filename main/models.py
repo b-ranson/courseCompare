@@ -17,6 +17,7 @@ class Courses(models.Model):
     lectureDiff = models.IntegerField()
     workLoad = models.IntegerField()
     examDiff = models.IntegerField()
+    numOfRatings = models.IntegerField(default = 0)
 
 class CourseTaking(models.Model):
     courseID = models.IntegerField()
