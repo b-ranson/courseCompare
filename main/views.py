@@ -108,34 +108,51 @@ def addReview(request):
 
 """
 Recieve user to be rendered and display the list of usernames
-If not accessed via post, redirect to home page 
+If not accessed via post, redirect to home page
 """
 @login_required(login_url='/accounts/login')
 def friendUserResults(request):
    if request.method == 'POST':
 
       form = forms.FriendLookUpForm(request.POST)
+      print(form)
       if form.is_valid():
          friendUserName = form.cleaned_data['friendUser']
          friend = models.MyCustomUser.objects.get(username = friendUserName)
-      # will need to query table to get rest of info once we get username
-      # hard coding for now
-      # if there is a way to make sql query a dict like this, would make implementing very easy
-         
+
          numClasses = CourseTaking.objects.filter(username = friend.username).count()
-      # still need to pass context as dict for html templatex
+
       context = {'friendName': friend.username, 'userID': friend.id, 'numClasses': numClasses}
 
       return render(request, 'userLookup/friendResults.html', context)
-   
+
    else:
       return render(request, 'home.html', {})
 
 ###############################################################################
 
+"""
+Page where users can view and add courses to their schedule on their account
+"""
 @login_required(login_url='/accounts/login')
 def addCourse(request):
-   return render(request, 'home.html', {})
+
+   if request.method == 'GET':
+      return render(request, 'addCourse/searchCourse.html')
+   elif request.method == 'POST':
+
+      form = forms.addCourseForm(request.POST)
+      if form.is_valid():
+
+         coursePrefix, courseNumber = form.getCleanInput()
+
+         # need to do queries for available courses and pass in whatever data the addCourse_schedule.html page needs
+         context = {}
+         return render(request, 'addCourse/addCourse_schedule.html', context)
+      else:
+         return render(request, 'home.html')
+
+
 
 ###############################################################################
 
@@ -153,7 +170,7 @@ def registration(request):
          username, password, firstName, lastName, email = form.getCleanInput()
          if not form.emailCheck():
             return HttpResponse("Must use FSU email to create account.")
-         user = models.MyCustomUser.objects.create_user(email=email, 
+         user = models.MyCustomUser.objects.create_user(email=email,
                                                         password=password,
                                                         username=username,
                                                         first_name=firstName,
@@ -163,7 +180,7 @@ def registration(request):
                                                         is_staff=False,
                                                         date_joined=timezone.now(),
                                                         last_login=None)
-         
+
          return redirect('/accounts/login')
       else:
          return redirect('/accounts/registration')
@@ -171,7 +188,7 @@ def registration(request):
 ###############################################################################
 
 """
-Login function 
+Login function
 """
 def userLogin(request):
    if request.method == 'GET':
@@ -186,17 +203,34 @@ def userLogin(request):
 
          if user is not None:
             login(request, user)
-            return redirect(f'/schedulepage/{request.user.username}')         
+            return redirect(f'/schedulepage/{request.user.username}')
          else:
             return HttpResponse("Incorrect Username or Password")
       else:
          return HttpResponse("Incorrect Username or Password")
-      
+
 
 ###############################################################################
-      
+
 @login_required(login_url='/accounts/login')
 def paiduserupgrade(request):
    group = Group.objects.get(name="PAIDUSER")
    request.user.groups.add(group)
-   return redirect(f'/schedulepage/{request.user.username}') 
+   return redirect(f'/schedulepage/{request.user.username}')
+
+###############################################################################
+
+def forgotPassword(request):
+   
+   if request.method == 'GET':
+      return render(request, 'accounts/forgotPass.html')
+   elif request.method == 'POST':
+      
+      form = forms.forgotPasswordForm(request.POST)
+      
+      if form.is_valid():
+         username, email, newPassword, confirmPassword = form.getCleanInput()
+
+         # make sure that username / email exist in DB and new/confirm match, then update db with new pass
+
+      return redirect('/accounts/login')

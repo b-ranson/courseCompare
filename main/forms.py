@@ -49,3 +49,26 @@ class LoginForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         return ((username, password))
+    
+class addCourseForm(forms.Form):
+    coursePrefix = forms.CharField(max_length=3, required=True)
+    courseNumber = forms.DecimalField(min_value=1000, max_digits=4, decimal_places=0, required=False)
+
+    def getCleanInput(self):
+        coursePrefix = self.cleaned_data.get('coursePrefix').upper()
+        courseNumber = self.cleaned_data.get('courseNumber')
+        return ((coursePrefix, courseNumber))
+    
+class forgotPasswordForm(forms.Form):
+    username = forms.CharField(max_length=50, required=True)
+    email = forms.EmailField(max_length=50, required=True, widget=forms.EmailInput())
+    newPassword = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput())
+    confirmPassword = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput())
+
+    def getCleanInput(self):
+        username = self.cleaned_data.get('username').upper()
+        email = self.cleaned_data.get('email').upper()
+        newPassword = self.cleaned_data.get('newPassword')
+        confirmPassword = self.cleaned_data.get('confirmPassword')
+
+        return ((username, email, newPassword, confirmPassword))
