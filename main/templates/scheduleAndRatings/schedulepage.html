@@ -10,7 +10,7 @@
 
 {% block content %}
     <br><br>
-    <h3>{{ persons }} Schedule</h3>
+    <h3>{{ username|upper }}'s Schedule</h3>
     <br>
     
     <div class="course-row-header">
@@ -41,7 +41,7 @@
             <div class="course-column">
                 {{ course.courseRating }}/5.0
             </div>
-            <a href="{% url 'advancedratings' course.courseName %}" class="course-column-button">See more</a> 
+            <a href="{% url 'advancedratings' course.courseIncID %}" class="course-column-button">See more</a> 
         </div>
     {% endfor %}
     </div>

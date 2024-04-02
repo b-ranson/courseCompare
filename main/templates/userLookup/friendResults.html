@@ -27,15 +27,15 @@
     <div class="friend-container">
         <div class="friend-row">
             <div class="friend-column">
-                {{ friend.name }}
+                {{ friendName }}
             </div>
             <div class="friend-column">
-                {{ friend.userID }}
+                {{ userID }}
             </div>
             <div class="friend-column">
-                {{ friend.numClasses }}
+                {{ numClasses }}
             </div>
-            <a href="{% url 'schedulepage' friend.userID %}" class="course-column-button">See schedule</a> 
+            <a href="{% url 'schedulepage' friendName %}" class="course-column-button">See schedule</a> 
         </div>
     </div>
 </body>

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'main',
 ]
 
+AUTH_USER_MODEL="main.MyCustomUser"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,12 +78,15 @@ WSGI_APPLICATION = 'courseCompare.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'default': {     
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'courseCompare',
+        'USER': 'root',
+        'PASSWORD': 'Jb162814',
+        'HOST': 'localhost',
+        'PORT':'3306'
      }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -132,5 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = "login"
 #LOGOUT_URL = "logout.html"
-LOGIN_REDIRECT_URL = "schedulepage"
+#LOGIN_REDIRECT_URL = "customRedirect"
 #LOGOUT_REDIRECT_URL = "index.html"

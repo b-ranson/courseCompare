@@ -1,2 +1,10 @@
 python3 manage.py runserver # do this command to start local server at http://127.0.0.1:8000/
-source courseEnv/Scripts/activate # start virtual env
+source courseEnv/Scripts/activate # start virtual env # not really necessary since we aren't using too many libraries?
+
+
+pip install pymysql
+
+IMPORTANT (How to setup db on new instance after creating db and everything):
+python3 manage.py makemigrations
+python3 manage.py migrate main
+python3 manage.py migrate 
