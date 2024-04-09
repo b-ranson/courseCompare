@@ -163,6 +163,8 @@ def addCourse(request):
       else:
          return render(request, 'home.html')
 
+###############################################################################
+      
 @login_required(login_url='/accounts/login')
 def addCourseToSchedule(request):
    if request.method == 'POST':
@@ -171,7 +173,8 @@ def addCourseToSchedule(request):
          CourseTaking.objects.create(username = request.user.username, courseID = request.POST['courseID'])
       return redirect(f'/schedulepage/{request.user.username}')
    
-
+###############################################################################
+   
 @login_required(login_url='/accounts/login')
 def deleteCourseFromSch(request):
    if request.method == 'POST':
