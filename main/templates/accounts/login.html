@@ -24,7 +24,9 @@
 </form>
 
 <div style="text-align: center;">
-    <button type="submit"> Forgot Password</button>   <!-- Have to redirect to a forgot pass later ig -->
+    <form action='{% url 'forgotPassword' %}' method="get">
+        <button type="submit"> Forgot Password</button>   <!-- Have to redirect to a forgot pass later ig -->
+    </form>
 
     <form action='{% url 'registration' %}' method="get">
         <button type="submit">Create account</button>  

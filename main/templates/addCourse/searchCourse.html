@@ -5,13 +5,15 @@
 
 {% block content %}
     <h1>Class Search</h1> <br>
-    <form action="/ClassResults" method = 'POST'>
-        <label for="Class_Prefix">Enter 3 Letter Class Prefix</label>
-        <input type="text" id="Class_Prefix" name="Class_Prefix" required> <br>
-        <label for="Class_Number">Enter 4 digit class number (optional)</label>
-        <input type="number" id="Class_Number" name="Class_Name">
-        <input type="submit" value = "Class">
-        <h5>Example: COP 3014</h5>       
+    <form action="/addCourse" method = 'POST'>
+        {% csrf_token %}  
+        <label for="coursePrefix">Enter 3 Letter Class Prefix</label>
+        <input type="text" id="coursePrefix" name="coursePrefix" required> <br>
+        <label for="courseNumber">Enter 4 digit class number (optional)</label>
+        <input type="number" id="courseNumber" name="courseNumber">
+        <input type="submit" value = "Submit">
+        <h5>Example: COP 3014</h5>
+        
     </form>
 </body>
 {% endblock %}

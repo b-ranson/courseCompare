@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.utils import timezone
 from .models import *
 from django.db.models import Count
+from django.db.models import Q
 
 from . import forms
 from . import models
@@ -83,8 +84,7 @@ def addReview(request):
 
    if request.method == 'GET':
 
-      # here need query of all available classes to rate and then pass into the html file (josh)
-      # have selection as a drop down (aiden)
+      allCourses = Courses.objects.all()
 
       return render(request, 'review/review.html', {})
    elif request.method == 'POST':
@@ -108,23 +108,24 @@ def addReview(request):
 
 """
 Recieve user to be rendered and display the list of usernames
-If not accessed via post, redirect to home page 
+If not accessed via post, redirect to home page
 """
 @login_required(login_url='/accounts/login')
 def friendUserResults(request):
    if request.method == 'POST':
 
       form = forms.FriendLookUpForm(request.POST)
+      print(form)
       if form.is_valid():
          friendUserName = form.cleaned_data['friendUser']
          friend = models.MyCustomUser.objects.get(username = friendUserName)
-         
+
          numClasses = CourseTaking.objects.filter(username = friend.username).count()
 
       context = {'friendName': friend.username, 'userID': friend.id, 'numClasses': numClasses}
 
       return render(request, 'userLookup/friendResults.html', context)
-   
+
    else:
       return render(request, 'home.html', {})
 
@@ -136,14 +137,41 @@ Page where users can view and add courses to their schedule on their account
 @login_required(login_url='/accounts/login')
 def addCourse(request):
 
-   # need to do queries for available courses and pass in whatever data the addCourse_schedule.html page needs
-   context = {}
-
    if request.method == 'GET':
-      return render(request, 'addCourse/searchCourse.html', context)
+      return render(request, 'addCourse/searchCourse.html')
    elif request.method == 'POST':
-         return render(request, 'addCourse/addCourse_schedule.html', context)
 
+      form = forms.addCourseForm(request.POST)
+      if form.is_valid():
+
+         coursePrefix, courseNumber = form.getCleanInput()
+
+         coursePrefix.upper()
+
+         allCourses = Courses.objects.all().filter(Q(courseLetters = coursePrefix) | Q(courseNumber = courseNumber))
+         course = []
+         for x in allCourses:
+            course.append({'courseName': x.courseName,'courseID':x.courseID,'courseRating': round((x.homeworkDiff+x.lectureDiff+x.workLoad+x.examDiff)/4)})
+         contex = {'courses':course}
+         return render(request, 'addCourse/addCourse_schedule.html', contex)
+      else:
+         return render(request, 'home.html')
+
+@login_required(login_url='/accounts/login')
+def addCourseToSchedule(request):
+   if request.method == 'POST':
+      set = CourseTaking.objects.all().filter(username = request.user.username, courseID = request.POST['courseID'])
+      if not set:
+         CourseTaking.objects.create(username = request.user.username, courseID = request.POST['courseID'])
+      return redirect(f'/schedulepage/{request.user.username}')
+   
+
+@login_required(login_url='/accounts/login')
+def deleteCourseFromSch(request):
+   if request.method == 'POST':
+      delObject = CourseTaking.objects.get(username = request.user.username, courseID = request.POST['courseID'])
+      delObject.delete()
+      return redirect(f'/schedulepage/{request.user.username}')
 
 
 ###############################################################################
@@ -162,7 +190,7 @@ def registration(request):
          username, password, firstName, lastName, email = form.getCleanInput()
          if not form.emailCheck():
             return HttpResponse("Must use FSU email to create account.")
-         user = models.MyCustomUser.objects.create_user(email=email, 
+         user = models.MyCustomUser.objects.create_user(email=email,
                                                         password=password,
                                                         username=username,
                                                         first_name=firstName,
@@ -172,7 +200,7 @@ def registration(request):
                                                         is_staff=False,
                                                         date_joined=timezone.now(),
                                                         last_login=None)
-         
+
          return redirect('/accounts/login')
       else:
          return redirect('/accounts/registration')
@@ -180,7 +208,7 @@ def registration(request):
 ###############################################################################
 
 """
-Login function 
+Login function
 """
 def userLogin(request):
    if request.method == 'GET':
@@ -195,17 +223,34 @@ def userLogin(request):
 
          if user is not None:
             login(request, user)
-            return redirect(f'/schedulepage/{request.user.username}')         
+            return redirect(f'/schedulepage/{request.user.username}')
          else:
             return HttpResponse("Incorrect Username or Password")
       else:
          return HttpResponse("Incorrect Username or Password")
-      
+
 
 ###############################################################################
-      
+
 @login_required(login_url='/accounts/login')
 def paiduserupgrade(request):
    group = Group.objects.get(name="PAIDUSER")
    request.user.groups.add(group)
-   return redirect(f'/schedulepage/{request.user.username}') 
+   return redirect(f'/schedulepage/{request.user.username}')
+
+###############################################################################
+
+def forgotPassword(request):
+   
+   if request.method == 'GET':
+      return render(request, 'accounts/forgotPass.html')
+   elif request.method == 'POST':
+      
+      form = forms.forgotPasswordForm(request.POST)
+      
+      if form.is_valid():
+         username, email, newPassword, confirmPassword = form.getCleanInput()
+
+         
+
+      return redirect('/accounts/login')
