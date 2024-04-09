@@ -85,16 +85,22 @@ def addReview(request):
    if request.method == 'GET':
 
       allCourses = Courses.objects.all()
+   
+      # hardcoding for now, josh add query for prefixes here then pass in, key word is prefixes for html template
+      # passing in empty one first makes it look better on template fyi
+      return render(request, 'review/review.html', {"prefixes": ["   ", "COP", "CEN", "MAC"]})
+   
+   elif request.method == 'POST':      
 
-      return render(request, 'review/review.html', {})
-   elif request.method == 'POST':
-
-      # josh all for you for queries to add new averages into db for respective class
-      # (lmk when the course selection stuff is added and ill add it to the form method)
       form = forms.CourseReviewForm(request.POST)
+      print(form)
       if form.is_valid():
-         examRating, homeworkRating, lectureRating, workloadRating, courseID = form.getCleanInput()
+         examRating, homeworkRating, lectureRating, workloadRating, coursePrefix, courseNumber = form.getCleanInput()
 
+      # do check of prefix and number here and get courseID, then use it below. commenting out for now
+      # so nothing gets messed up while courseID is not being found 
+
+      """
       Course = Courses.objects.get(courseID = courseID)
       Course.numOfRatings = Course.numOfRatings + 1
       Course.examDiff = (Course.examDiff * Course.numOfRatings + examRating)/Course.numOfRating
@@ -102,8 +108,8 @@ def addReview(request):
       Course.workLoad = (Course.workLoad * Course.numOfRatings + workloadRating)/Course.numOfRating
       Course.homeworkDiff = (Course.homeworkDiff * Course.numOfRatings + homeworkRating)/Course.numOfRating
       Course.save()
-
-      return render(request, 'review/review.html', {})
+      """
+      return redirect('/addReview')
 ###############################################################################
 
 """

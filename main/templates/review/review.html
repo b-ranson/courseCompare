@@ -6,25 +6,27 @@
 {% block content %}
 
     <form action="/addReview" method = 'POST'>
+        {% csrf_token %}
+        <label for="coursePrefix">Choose an option:</label>
+        <select id="coursePrefix" name="coursePrefix">
 
-        <label for="dropdown">Choose an option:</label>
-        <select id="dropdown" name="options">
             <!-- Populate the select element with option elements -->
             {% for prefix in prefixes %}
                 <option value="{{ prefix }}">{{ prefix }}</option>
             {% endfor %}
             <!-- Add more options as needed -->
+            
         </select>
         <br>
 
-        <label for="Class_Number">Enter 4 digit class number (optional)</label>
-        <input type="number" id="Class_Number" name="Class_Name"> <br>
+        <label for="classNumber">Enter 4 digit class number</label>
+        <input type="number" id="classNumber" name="classNumber" required> <br>
         
         
         <h3>Enter the Difficulty for the Following Aspects of the Course: {{ courseName }}</h3> <br>
         <h4>1 = easy, 5 = Difficulty (0 for didnt have it)</h4><br><br>
 
-        {% csrf_token %}
+       
         <label for="examRating">Exam Difficulty</label>
         <input type="range" id="examRating" name="examRating" min = "0" max = "5" required><br>
 

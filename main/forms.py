@@ -5,14 +5,18 @@ class CourseReviewForm(forms.Form):
     homeworkRating = forms.DecimalField(min_value=0, max_value=5, max_digits=1, decimal_places=0)
     lectureRating = forms.DecimalField(min_value=0, max_value=5, max_digits=1, decimal_places=0)
     workloadRating = forms.DecimalField(min_value=0, max_value=5, max_digits=1, decimal_places=0)
+    coursePrefix = forms.CharField(max_length=3)
+    classNumber = forms.DecimalField(min_value=0, max_value=9999, max_digits=4, decimal_places=0)
 
     def getCleanInput(self):
         examRating = self.cleaned_data.get('examRating')
         homeworkRating = self.cleaned_data.get('homeworkRating')    
         lectureRating = self.cleaned_data.get('lectureRating')    
-        workloadRating = self.cleaned_data.get('workloadRating')    
+        workloadRating = self.cleaned_data.get('workloadRating')   
+        coursePrefix = self.cleaned_data.get('coursePrefix')
+        classNumber = self.cleaned_data.get('classNumber')
     
-        return ((examRating, homeworkRating, lectureRating, workloadRating))
+        return ((examRating, homeworkRating, lectureRating, workloadRating, coursePrefix, classNumber))
 class FriendLookUpForm(forms.Form):
     friendUser = forms.CharField(max_length=50, required=True)
 
