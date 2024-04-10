@@ -10,11 +10,9 @@
         <label for="coursePrefix">Choose an option:</label>
         <select id="coursePrefix" name="coursePrefix">
 
-            <!-- Populate the select element with option elements -->
             {% for prefix in prefixes %}
-                <option value="{{ prefix }}">{{ prefix }}</option>
+                <option value="{{ prefix.courseLetters }}">{{ prefix.courseLetters }}</option>
             {% endfor %}
-            <!-- Add more options as needed -->
             
         </select>
         <br>

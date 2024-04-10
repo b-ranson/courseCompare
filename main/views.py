@@ -34,12 +34,13 @@ def schedulepage(request, userName):
    cTaking = CourseTaking.objects.all().filter(username = userName)
 
    courses = []
+   isMe = userName == request.user.username
 
    for x in cTaking:
       course = Courses.objects.get(courseID = x.courseID)
       courses.append({'courseID': course.courseLetters + str(course.courseNumber),'courseName': course.courseName,'courseRating':round((course.homeworkDiff+course.lectureDiff+course.workLoad+course.examDiff)/4),'courseIncID':course.courseID})
 
-   context = {'courses': courses, 'username': userName}
+   context = {'courses': courses, 'username': userName, 'isMe' : isMe}
    return render(request, 'scheduleAndRatings/schedulepage.html', context)
 
 ###############################################################################
@@ -84,11 +85,10 @@ def addReview(request):
 
    if request.method == 'GET':
 
-      allCourses = Courses.objects.all()
-   
+      coursePrefixs = Courses.objects.all().values('courseLetters').distinct()
       # hardcoding for now, josh add query for prefixes here then pass in, key word is prefixes for html template
       # passing in empty one first makes it look better on template fyi
-      return render(request, 'review/review.html', {"prefixes": ["   ", "COP", "CEN", "MAC"]})
+      return render(request, 'review/review.html', {"prefixes": coursePrefixs})
    
    elif request.method == 'POST':      
 
@@ -100,15 +100,17 @@ def addReview(request):
       # do check of prefix and number here and get courseID, then use it below. commenting out for now
       # so nothing gets messed up while courseID is not being found 
 
-      """
-      Course = Courses.objects.get(courseID = courseID)
+      Course = Courses.objects.all().filter(Q(courseLetters = coursePrefix) & Q(courseNumber = courseNumber))
+      if not Course.exists():
+         return redirect('/addReview')
+      Course = Course[0]
       Course.numOfRatings = Course.numOfRatings + 1
-      Course.examDiff = (Course.examDiff * Course.numOfRatings + examRating)/Course.numOfRating
-      Course.lectureDiff = (Course.lectureDiff * Course.numOfRatings + lectureRating)/Course.numOfRating
-      Course.workLoad = (Course.workLoad * Course.numOfRatings + workloadRating)/Course.numOfRating
-      Course.homeworkDiff = (Course.homeworkDiff * Course.numOfRatings + homeworkRating)/Course.numOfRating
+      Course.examDiff = (Course.examDiff * Course.numOfRatings + examRating)/Course.numOfRatings
+      Course.lectureDiff = (Course.lectureDiff * Course.numOfRatings + lectureRating)/Course.numOfRatings
+      Course.workLoad = (Course.workLoad * Course.numOfRatings + workloadRating)/Course.numOfRatings
+      Course.homeworkDiff = (Course.homeworkDiff * Course.numOfRatings + homeworkRating)/Course.numOfRatings
       Course.save()
-      """
+
       return redirect('/addReview')
 ###############################################################################
 
@@ -121,7 +123,6 @@ def friendUserResults(request):
    if request.method == 'POST':
 
       form = forms.FriendLookUpForm(request.POST)
-      print(form)
       if form.is_valid():
          friendUserName = form.cleaned_data['friendUser']
          friend = models.MyCustomUser.objects.get(username = friendUserName)
