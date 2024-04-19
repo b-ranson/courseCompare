@@ -13,10 +13,10 @@ class Courses(models.Model):
     courseName = models.CharField(max_length=75)
     courseLetters = models.CharField(max_length=3)
     professor = models.CharField(max_length=45)
-    homeworkDiff = models.IntegerField()
-    lectureDiff = models.IntegerField()
-    workLoad = models.IntegerField()
-    examDiff = models.IntegerField()
+    homeworkDiff = models.FloatField()
+    lectureDiff = models.FloatField()
+    workLoad = models.FloatField()
+    examDiff = models.FloatField()
     numOfRatings = models.IntegerField(default = 0)
 
 class CourseTaking(models.Model):

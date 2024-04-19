@@ -158,7 +158,7 @@ def addCourse(request):
          allCourses = Courses.objects.all().filter(Q(courseLetters = coursePrefix) | Q(courseNumber = courseNumber))
          course = []
          for x in allCourses:
-            course.append({'courseName': x.courseName,'courseID':x.courseID,'courseRating': round((x.homeworkDiff+x.lectureDiff+x.workLoad+x.examDiff)/4)})
+            course.append({'courseName': x.courseName,'name':x.courseLetters + ' ' + str(x.courseNumber),'courseRating': round((x.homeworkDiff+x.lectureDiff+x.workLoad+x.examDiff)/4), 'courseID': x.courseID})
          contex = {'courses':course}
          return render(request, 'addCourse/addCourse_schedule.html', contex)
       else:
