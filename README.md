@@ -5,7 +5,7 @@
 We want to implement a way for FSU Students to be able to view and compare their schedule to their peers. We also have included a review system for courses so students can view and prepare for future classes based on reviews. This project is a spin off of RateMyProfessor with a social media aspect and basing the site more on courses rather than professors.
 
 ### Extra UI Details to Know
-
+- N/A. The site should be self-explanatory to browse and interact with. All input areas have guides/examples on expected input.
 ### Libraries Being Used
 - Django framework
 - MySQL
