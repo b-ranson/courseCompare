@@ -1,0 +1,21 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Schedule Page{% endblock %}
+{% block head%}
+{{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'schedulepage.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <h1>User Schedule LookUp</h1>
+    
+    <!-- this will go to separate function and call a query to order, then pass that into the display list html -->
+    <h2><a href="/sort_A_To_Z">Sort by last name (A-Z)</a></h2>
+    <h2><a href="/sort_Z_To_A">Sort by last name (Z-A)</a></h2>
+
+    <!-- search friend -> reusing the schedule html -->
+    <h2><a href="/searchFriend">Search Friend By Username</a></h2>
+</body>
+{% endblock %}

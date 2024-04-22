@@ -1,0 +1,26 @@
+/* loginbar.css */
+
+/* Style for the login bar container */
+.loginBar {
+    background-color: #ffffff; /* Background color */
+    padding: 10px; /* Padding around the content */
+    border-bottom: 1px solid #ccc; /* Bottom border */
+}
+
+/* Style for the "Logged in as" text */
+.loginBar p {
+    margin: 0; /* Remove default margin */
+    font-size: 14px; /* Font size */
+    color: #333; /* Text color */
+}
+
+.linkButton{
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+/* Additional styling for the login bar, such as font family, text alignment, etc., can be added here */

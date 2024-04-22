@@ -1,0 +1,45 @@
+<!-- Header/Nav bar that can now be pulled into template-->
+<!-- Lowkey need to add a little things above this even to show that someone is logged in and a logout button-->
+
+{% load static %}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'loginBar.css' %}">    
+    <link rel="stylesheet" type="text/css" href="{% static 'buttons.css' %}">
+    <title>{% block title %}My Website{% endblock %}</title>
+    {% block head %}{% endblock %}
+
+</head>
+
+<body>
+
+    <div class="loginBar">
+            <p>Logged in As: {{ user.username }}</p>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="linkButton" type="submit">Logout</button>
+            </form>
+    </div>
+
+    <header>
+        <div class="header">
+            <div class="buttons">
+                <!-- Put in links for these two buttons later -->
+                <button class="button" onclick="window.location.href = '{% url 'schedulepage' userName=user.username %}'">Your Schedule</button>
+                <button class="button" onclick="window.location.href = '{% url 'addCourse' %}'">Add Course to Schedule</button>
+                <button class="button" onclick="window.location.href = '{% url 'addReview' %}'">Add Course Review</button>
+                <button class="button" onclick="window.location.href = '{% url 'friendLookUp' %}'">Friend Lookup</button>
+                <button class="button" onclick="window.location.href = '{% url 'paiduserupgrade' %}'">Upgrade to paid user</button>
+            </div>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

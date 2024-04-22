@@ -1,0 +1,58 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Add Schedule Page{% endblock %}
+{% block head%}
+{{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'schedulepage.css' %}">
+{% endblock %}
+
+
+{% block content %}
+ 
+    <div class="course-row-header">
+        <div class="course-column">
+            Course Name
+        </div>
+        <div class="course-column">
+            Course ID
+        </div>
+        <div class="course-column">
+            Course Rating
+        </div>
+        <div class="course-column">
+            See more button
+        </div>
+        <div class="course-column">
+            Add to schedule
+        </div>
+    </div>
+
+
+    <div class="courses-container">
+    {% for course in courses %}
+        <div class="course-row">
+            <div class="course-column">
+                {{ course.courseName }}
+            </div>
+            <div class="course-column">
+                {{ course.name }}
+            </div>
+            <div class="course-column">
+                {{ course.courseRating }}/5.0
+            </div>
+            <div>
+            <a href="{% url 'advancedratings' course.courseName %}" class="course-column-button">See more</a> 
+            </div>
+            <div>
+            <form action="{% url 'addCourseToSchedule' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="courseID" value = {{course.courseID}}>
+                <input type="submit" value="Add Course">
+            </form>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</body>
+{% endblock %}

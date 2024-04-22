@@ -1,0 +1,49 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Users List Page{% endblock %}
+{% block head%}
+{{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'userlookup.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <br><br>
+    <h3>{{ persons }} Schedule</h3>
+    <br>
+    
+    <div class="user-row-header">
+        <div class="user-column">
+            user Name
+        </div>
+        <div class="user-column">
+            user ID
+        </div>
+        <div class="user-column">
+            Number of Courses
+        </div>
+        <div class="user-column">
+            See schedule button
+        </div>
+    </div>
+
+
+    <div class="users-container">
+    {% for user in users %}
+        <div class="user-row">
+            <div class="user-column">
+                {{ user.userName }}
+            </div>
+            <div class="user-column">
+                {{ user.userID }}
+            </div>
+            <div class="user-column">
+                {{ user.numCoursers }}
+            </div>
+            <a href="{% url 'schedulepage' user.schedule %}" class="user-column-button">See schedule</a> 
+        </div>
+    {% endfor %}
+    </div>
+</body>
+{% endblock %}

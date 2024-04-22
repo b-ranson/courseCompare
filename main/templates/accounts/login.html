@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'loginStyle.css' %}">
+    
+</head>
+<body>
+
+    <form method="post"> 
+    {% csrf_token %}
+    <h2>Login</h2>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <input type="submit" value="Login">
+</form>
+
+<div style="text-align: center;">
+    <form action='{% url 'forgotPassword' %}' method="get">
+        <button type="submit"> Forgot Password</button>   <!-- Have to redirect to a forgot pass later ig -->
+    </form>
+
+    <form action='{% url 'registration' %}' method="get">
+        <button type="submit">Create account</button>  
+    </form>
+    
+</div>
+</body>
+</html>

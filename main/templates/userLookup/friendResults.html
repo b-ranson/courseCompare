@@ -1,0 +1,41 @@
+{% extends 'buttons.html' %}
+{% load static %}
+
+{% block title %}Friend Page{% endblock %}
+{% block head%}
+{{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'friendPage.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="friend-row-header">
+        <div class="friend-column">
+            Friend Name
+        </div>
+        <div class="friend-column">
+            User ID
+        </div>
+        <div class="friend-column">
+            Number of Courses
+        </div>
+        <div class="friend-column">
+            See Schedule
+        </div>
+    </div>
+
+    <div class="friend-container">
+        <div class="friend-row">
+            <div class="friend-column">
+                {{ friendName }}
+            </div>
+            <div class="friend-column">
+                {{ userID }}
+            </div>
+            <div class="friend-column">
+                {{ numClasses }}
+            </div>
+            <a href="{% url 'schedulepage' friendName %}" class="course-column-button">See schedule</a> 
+        </div>
+    </div>
+</body>
+{% endblock %}
