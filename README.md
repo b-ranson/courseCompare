@@ -20,6 +20,15 @@ varies too much from class to class and would be challenging to implement in a s
 make every account on our platorm be viewable by other users instead of implementing a graph-based friends list.
 ### Separation of Work
 - Aiden - Front End
+    - Implemented static HTML pages along with styling them using CSS. Also implemented dynamic information passing using JINJA
+      when interacting with the backend.
 - Blaine - Distribution / Front End
+    - Wrote static HTML pages along with styling them using CSS. Also wrote the paper describing how we would implement
+      distribution for our project.
 - Branson - Back End / Security
+    - Implemented the routing, input validation, and login/site-viewing security using the Django Framework and expanding
+      its built in functions to align with the project's needs. 
 - Josh - Databases / RBAC
+    - Implemented and populated a MySQL database that was accessed by the project server to display queried information.
+      Also added Role-Based Access functionality to prevent "paid-user only" pages from being seen by basic users, along
+      with preventing admin pages from being seen from anyone other than admins.
