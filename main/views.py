@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login
 from django.utils import timezone
 from .models import *
@@ -245,7 +246,9 @@ def userLogin(request):
 @login_required(login_url='/accounts/login')
 def paiduserupgrade(request):
    group = Group.objects.get(name="PAIDUSER")
-   request.user.groups.add(group)
+   user = MyCustomUser.objects.get(username =request.user.username)
+   user.groups.set([group])
+   print(request.user.groups)
    return redirect(f'/schedulepage/{request.user.username}')
 
 ###############################################################################
