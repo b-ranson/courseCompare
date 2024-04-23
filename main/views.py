@@ -248,7 +248,6 @@ def paiduserupgrade(request):
    group = Group.objects.get(name="PAIDUSER")
    user = MyCustomUser.objects.get(username =request.user.username)
    user.groups.set([group])
-   print(request.user.groups)
    return redirect(f'/schedulepage/{request.user.username}')
 
 ###############################################################################
